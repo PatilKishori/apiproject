@@ -9,8 +9,7 @@ class Database{
             password:"",
             database:"igapeducation"
         });
-    }
-
+}
     query = (sql, args)=>{
         return new Promise((resolve, reject)=>{
             this.con.query(sql, args, (err, result)=>{
@@ -20,9 +19,10 @@ class Database{
                     return resolve(result);
             });
         });
-    }
-}
 
+   
+}
+}
 module.exports = {
     Database:Database
 }
