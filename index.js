@@ -1,9 +1,18 @@
 let express = require("express");
 const Admin = require("./models/Admin");
 const Course = require("./models/Course");
+const Coursetopics = require("./models/Coursetopics");
 
 let app = express();
 app.use(express.json());
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 app.get("/", (req, res)=>{
     res.send("Welcome to iGAP Education APIs");
@@ -83,7 +92,95 @@ app.post("/getcourse", (req, res)=>{
     )
 });
 
+app.post("/save", (req, res)=>{
+    let data = req.body.data;
+    let coursetopics = new Coursetopics.Coursetopics();
+    coursetopics.id = data.id;
+    coursetopics.courseid = data.courseid;
+    coursetopics.description = data.description;
+    coursetopics.topicname = data.topicname;
+    coursetopics.srno = data.srno;
+    coursetopics.save().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
 
-app.listen(8082, ()=>{
+app.post("/gettopic", (req, res)=>{
+    let data = req.body.data;
+    let course = new Coursetopics.Coursetopics();
+    coursetopics.id = data.id;
+    coursetopics.gettopic().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
+
+app.post("/listtopics", (req, res)=>{
+    let data = req.body.data;
+    let coursetopics = new Coursetopics.Coursetopics();
+    coursetopics.courseid = data.courseid;
+    coursetopics.listtopic().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
+
+app.post("/deletetopic", (req, res)=>{
+    let data = req.body.data;
+    let coursetopics = new Coursetopics.Coursetopics();
+    coursetopics.id = data.id;
+    coursetopics.deletetopic().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
+
+app.post("/listtopics ", (req, res)=>{
+    let data = req.body.data;
+    let coursetopics = new Coursetopics.Coursetopics();
+    coursetopics.courseid = data.courseid;
+    coursetopics.listsrno().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
+app.post("/updatesrno", (req, res)=>{
+    let data = req.body.data;
+    let coursetopics = new Coursetopics.Coursetopics();
+    coursetopics.courseid = data.courseid;
+    coursetopics.id = data.id;
+    coursetopics.srno = data.srno;
+    coursetopics.updatesrno().then(
+        result=>{
+            res.send({status:"success", data:result});
+        },
+        err=>{
+            res.send({status:"fail", data:err});
+        }
+    )
+});
+
+app.listen(8081, ()=>{
     console.log("APIs are running at http://localhost:8081");
 });
