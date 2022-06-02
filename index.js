@@ -117,7 +117,7 @@ app.post("/save", (req, res)=>{
 
 app.post("/gettopic", (req, res)=>{
     let data = req.body.data;
-    let course = new Coursetopics.Coursetopics();
+    let coursetopics = new Coursetopics.Coursetopics();
     coursetopics.id = data.id;
     coursetopics.gettopic().then(
         result=>{
@@ -133,7 +133,7 @@ app.post("/listtopics", (req, res)=>{
     let data = req.body.data;
     let coursetopics = new Coursetopics.Coursetopics();
     coursetopics.courseid = data.courseid;
-    coursetopics.listtopic().then(
+    coursetopics.listtopics().then(
         result=>{
             res.send({status:"success", data:result});
         },
@@ -157,7 +157,7 @@ app.post("/deletetopic", (req, res)=>{
     )
 });
 
-app.post("/listtopics ", (req, res)=>{
+app.post("/listtopicsrno ", (req, res)=>{
     let data = req.body.data;
     let coursetopics = new Coursetopics.Coursetopics();
     coursetopics.courseid = data.courseid;
